@@ -1,5 +1,7 @@
 ﻿namespace NumbersGame
 {
+    //Tobias Söderqvist .NET23
+
     internal class Program
     {
         static void Main(string[] args)
@@ -12,18 +14,21 @@
 
         static void StartGame()
         {
+            //Array to hold difficulty settings
             //Difficulty[0] = min
             //Difficulty[1] = max
             //Difficulty[2] = max guesses
             int[] difficulty = new int[3];
 
-            difficulty = ChooseDificulty();
+            difficulty = ChooseDifficulty();
 
 
             Console.WriteLine($"Välkommen! Jag tänker på ett nummer mellan {difficulty[0]} och {difficulty[1] - 1}. Kan du gissa vilket? Du får {difficulty[2]} försök.");
-            Random random = new Random();
 
+            //create new random instance and get a random number based on choosen difficulty
+            Random random = new Random();
             int number = random.Next(difficulty[0], difficulty[1]);
+
             int guess;
             int guesses = 0;
             string input = "";
@@ -44,17 +49,19 @@
                 guesses++;
             }
 
-            Console.WriteLine("Tyvärr, du lyckades inte gissa talet på fem försök!");
+            //if too many guesses inform player and ask too play again
+            Console.WriteLine($"Tyvärr, du lyckades inte gissa talet på {difficulty[2]} försök!");
             Restart();
         }
 
-        private static int[] ChooseDificulty()
+        private static int[] ChooseDifficulty()
         {
 
             string input;
             int result;
             int[] difficulty = new int[3];
 
+            
             do
             {
                 Console.WriteLine("Välj svårighetsgrad");
@@ -65,6 +72,7 @@
             } while (!Int32.TryParse(input, out result) || !(result >= 1 && result <= 3));
 
 
+            //Switch that fills array with settings for choosen difficulty
             switch (result)
             {
                 case 1:
@@ -98,11 +106,13 @@
         {
             Random random = new Random();
 
+            //If guess is correct ask if player wants to play again
             if (guess == number)
             {
                 Console.WriteLine("Wohoo! Du klarade det!");
                 Restart();
             }
+            //Else give a clue if too high or low with multiple responses using random number
             else if (guess > number)
             {
 
@@ -152,6 +162,9 @@
 
             Console.WriteLine("Vill du spela igen Y/N");
 
+            // if Y Restart from the begining
+            // if N Exit 
+            //Else ask again untill Y or N is pressed
             var input = Console.ReadKey().Key;
             if (input == ConsoleKey.Y)
             {
